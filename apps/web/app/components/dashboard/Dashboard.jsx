@@ -1,6 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import useStore from '@/lib/store';
+import { workspacesAPI } from '@/lib/api/workspaces';
 import {
     Target,
     CheckCircle2,
@@ -13,21 +16,28 @@ import {
 } from 'lucide-react';
 
 export default function Dashboard() {
-    // Mock Data
-    const currentWorkspace = {
-        id: '1',
-        name: 'Growth Team',
-        accentColor: '#6366f1',
-        members: [
-            { id: '1', user: { id: 'u1', name: 'Alex Chen', online: true } },
-            { id: '2', user: { id: 'u2', name: 'Sarah Khan', online: true } },
-            {
-                id: '3',
-                user: { id: 'u3', name: 'Marcus Okoro', online: false },
-            },
-            { id: '4', user: { id: 'u4', name: 'Priya Sharma', online: true } },
-        ],
-    };
+    const { onlineUsers, currentWorkspaceId } = useStore();
+    const [workspaces, setWorkspaces] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchWorkspaces = async () => {
+            try {
+                const res = await workspacesAPI.list();
+                setWorkspaces(res?.data?.data || []);
+            } catch (err) {
+                console.error('Failed to fetch workspaces:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchWorkspaces();
+    }, []);
+
+    const currentWorkspace = workspaces?.find(
+        (w) => w?.id === currentWorkspaceId,
+    );
+    const workspaceMembers = currentWorkspace?.members || [];
 
     const stats = [
         {
@@ -144,8 +154,8 @@ export default function Dashboard() {
                         Here's what's happening in{' '}
                         <span
                             className="font-medium"
-                            style={{ color: currentWorkspace.accentColor }}>
-                            {currentWorkspace.name}
+                            style={{ color: currentWorkspace?.accentColor }}>
+                            {currentWorkspace?.name}
                         </span>
                     </p>
                 </div>
@@ -191,7 +201,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between mb-4">
                     <h3 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                         <Users className="w-4 h-4 text-indigo-500" />
-                        Team Members ({currentWorkspace.members.length})
+                        Team Members ({currentWorkspace?.members.length})
                     </h3>
                     <Link
                         href="/workspace-settings"
@@ -200,7 +210,7 @@ export default function Dashboard() {
                     </Link>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                    {currentWorkspace.members.map((member) => (
+                    {currentWorkspace?.members.map((member) => (
                         <div
                             key={member.id}
                             className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50 border border-gray-100 dark:border-gray-600">
