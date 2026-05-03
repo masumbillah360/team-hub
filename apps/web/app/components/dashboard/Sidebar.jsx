@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import useStore, { Page } from '@/lib/store';
 import { usePermissions } from '@/lib/hooks/usePermissions';
 import WorkspaceSelector from './WorkspaceSelector';
@@ -49,6 +49,9 @@ export default function Sidebar() {
     const [actionLoading, setActionLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Ref for the workspace dropdown container
+    const workspaceDropdownRef = useRef(null);
+
     // ✅ Derive role values without useState — compute directly from data
     // This eliminates the need for a separate useEffect to sync them
     const currentWorkspace = workspaces?.find(
@@ -82,6 +85,23 @@ export default function Sidebar() {
     useEffect(() => {
         fetchWorkspaces();
     }, [workspacesVersion]);
+
+    // Handle click outside to close workspace dropdown
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (workspaceDropdownRef.current && !workspaceDropdownRef.current.contains(event.target)) {
+                setShowWorkspaceDropdown(false);
+            }
+        };
+
+        if (showWorkspaceDropdown) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showWorkspaceDropdown]);
 
     // ✅ Sync role to store — also above early returns
     useEffect(() => {
@@ -248,7 +268,7 @@ export default function Sidebar() {
 
             {/* Workspace Selector */}
             <div className="p-3 border-b border-gray-100 dark:border-gray-700">
-                <div className="relative">
+                <div className="relative" ref={workspaceDropdownRef}>
                     <button
                         onClick={() =>
                             setShowWorkspaceDropdown(!showWorkspaceDropdown)

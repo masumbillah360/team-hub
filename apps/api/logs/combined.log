@@ -941,3 +941,5 @@
 {"level":"info","message":"POST /api/workspaces","timestamp":"2026-05-03 17:51:22"}
 {"level":"info","message":"GET /api/workspaces","timestamp":"2026-05-03 17:51:22"}
 {"level":"info","message":"GET /api/workspaces","timestamp":"2026-05-03 17:51:22"}
+{"level":"info","message":"GET /api/workspaces","timestamp":"2026-05-03 17:53:27"}
+{"level":"info","message":"GET /api/workspaces","timestamp":"2026-05-03 17:53:30"}
