@@ -9,6 +9,7 @@ import CommandPalette from '../components/dashboard/CommandPalette';
 import ToastContainer from '@/app/components/dashboard/ToastContainer';
 import useStore from '@/lib/store';
 import { workspacesAPI } from '@/lib/api/workspaces';
+import { joinWorkspace, leaveWorkspace, disconnectSocket } from '@/lib/socket';
 
 export default function AuthenticatedLayout({ children }) {
     const {
@@ -58,6 +59,26 @@ export default function AuthenticatedLayout({ children }) {
         setShowWorkspaceSelector,
         workspacesVersion,
     ]);
+
+    // Join workspace socket room when workspace changes
+    useEffect(() => {
+        if (currentWorkspaceId) {
+            joinWorkspace(currentWorkspaceId);
+        }
+
+        return () => {
+            if (currentWorkspaceId) {
+                leaveWorkspace(currentWorkspaceId);
+            }
+        };
+    }, [currentWorkspaceId]);
+
+    // Disconnect socket on unmount
+    useEffect(() => {
+        return () => {
+            disconnectSocket();
+        };
+    }, []);
 
     return (
         <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
