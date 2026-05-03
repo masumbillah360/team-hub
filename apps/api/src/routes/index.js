@@ -7,18 +7,18 @@ const router = Router()
 router.get('/', (req, res) => {
     res.send({
         success: true,
-        message: 'V1 routes are available',
+        message: 'routes are available',
     })
 })
 
 router.get('/health', (req, res) => {
     res.send({
         success: true,
-        message: 'V1 routes are healthy',
+        message: 'routes are healthy',
     })
 })
 
 router.use('/auth', authRoutes)
-router.use('/workspace', workspaceRoutes)
+router.use('/workspaces', workspaceRoutes)
 
 export default router

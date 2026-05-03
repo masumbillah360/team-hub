@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 })
 
 // API routes
-app.use('/api/v1', router)
+app.use('/api', router)
 
 // 404 handler
 app.use(notFound)

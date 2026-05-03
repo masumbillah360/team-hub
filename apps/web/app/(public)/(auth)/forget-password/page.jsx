@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authAPI } from '../../../lib/api/auth';
-import useAuthStore from '../../../lib/store/authStore';
 import AuthHeader from '../components/AuthHeader';
 import FormInput from '../components/FormInput';
 import LoadingButton from '../components/LoadingButton';
@@ -12,7 +11,6 @@ import ErrorMessage from '../components/ErrorMessage';
 
 export default function ForgetPasswordPage() {
     const [email, setEmail] = useState('');
-    const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
@@ -23,7 +21,6 @@ export default function ForgetPasswordPage() {
         setError('');
         try {
             await authAPI.forgotPassword(email);
-            setSubmitted(true);
             // Pass email to verify-otp page via router state or localStorage
             localStorage.setItem('resetEmail', email);
             router.push('/verify-otp');

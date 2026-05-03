@@ -35,7 +35,7 @@ export const login = async ({ email, password }) => {
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) throw new Error('Invalid credentials')
 
-    const workspaces = getWorkspaces({ userId: user.id })
+    const workspaces = await getWorkspaces({ userId: user.id, page: 1, limit: 10 })
     const accessToken = generateAccessToken({ userId: user.id, role: user.role })
     const refreshToken = generateRefreshToken({ userId: user.id })
 
@@ -46,7 +46,7 @@ export const login = async ({ email, password }) => {
 
     return {
         user: { id: user.id, name: user.name, email: user.email, role: user.role, avatar: user.avatar },
-        workspaces, 
+        workspaces: workspaces.data, 
         accessToken,
         refreshToken,
     }
@@ -79,8 +79,9 @@ export const getProfile = async (userId) => {
         where: { id: userId },
         select: { id: true, name: true, email: true, role: true, avatar: true, online: true },
     })
+    const workspaces = await getWorkspaces({ userId: user.id, page: 1, limit: 10 })
     if (!user) throw new Error('User not found')
-    return user
+    return { user, workspaces: workspaces.data }
 }
 
 export const updateProfile = async (userId, data, file) => {

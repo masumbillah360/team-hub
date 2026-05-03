@@ -1,5 +1,7 @@
+import prisma from "@repo/database";
 import { verifyAccessToken } from '../lib/jwt.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
+import { hasPermission } from "../utils/permissions.js";
 
 export const protect = () =>
     asyncHandler(async (req, res, next) => {
@@ -24,18 +26,18 @@ export const protect = () =>
 */
 export function requireWorkspacePermission(permission) {
     return async (req, res, next) => {
-        const workspaceId = req.params.id || req.body.workspaceId;
+        const workspaceId = req.params.id || req.body.workspaceId || req.query.id;
         if (!workspaceId) {
             return res.status(400).json({ message: 'Workspace ID required' });
         }
 
         try {
-            const membership = await prisma.workspaceMember.findUnique({
+            const membership = await prisma.workspaceMember.findFirst({
                 where: {
-                    workspaceId_userId: {
-                        workspaceId,
-                        userId: req.user.userId,
-                    },
+
+                    userId: req.user.userId,
+                    workspaceId: workspaceId
+
                 },
             });
 
@@ -53,6 +55,7 @@ export function requireWorkspacePermission(permission) {
             req.workspaceRole = membership.role;
             next();
         } catch (error) {
+            console.log(error)
             return res.status(500).json({ message: 'Error checking permissions' });
         }
     };

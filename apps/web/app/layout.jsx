@@ -2,7 +2,6 @@ import '@repo/ui/styles.css';
 import './globals.css';
 
 import { Geist } from 'next/font/google';
-import LandingNav from './components/landing/Navbar';
 import AuthProvider from '../lib/components/AuthProvider';
 
 const geist = Geist({ subsets: ['latin'] });
@@ -17,7 +16,6 @@ export default function RootLayout({ children }) {
         <html lang="en" suppressHydrationWarning>
             <body className={geist.className}>
                 <AuthProvider>
-                    <LandingNav />
                     {children}
                 </AuthProvider>
             </body>

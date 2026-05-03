@@ -1,3 +1,4 @@
+import { entityType } from "../validators/workspace.validator.js";
 import prisma from "@repo/database";
 
 export const getWorkspaces = async ({ userId, page, limit, search }) => {
@@ -42,6 +43,8 @@ export const createWorkspace = async ({ name, description, accentColor, userId }
             userId,
             details: `Created workspace "${name}"`,
             workspaceId: workspace.id,
+            entityId: workspace.id,
+            entityType: entityType.Enum.Workspace,
         },
     });
 
@@ -127,6 +130,8 @@ export const updateWorkspace = async ({ workspaceId, name, description, accentCo
             userId: updatedById,
             details: `Updated workspace settings`,
             workspaceId,
+            entityId: updated.id,
+            entityType: entityType.Enum.Workspace,
         },
     });
 
@@ -142,14 +147,14 @@ export const deleteWorkspace = async ({ workspaceId, deletedById }) => {
 
     await prisma.workspace.delete({
         where: { id: workspaceId },
-    });
-
-    await prisma.auditLog.create({
-        data: {
-            action: 'workspace.deleted',
-            userId: deletedById,
-            details: `Deleted workspace "${workspace.name}"`,
-            workspaceId,
-        },
+        include: {
+            auditLogs: true,
+            members: true,
+            goals: true,
+            actionItems: true,
+            announcements: true,
+            notifications: true,
+            permissionMatrix: true,
+        }
     });
 };
