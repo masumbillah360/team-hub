@@ -417,8 +417,10 @@ export default function AuditLogPage() {
                                                     ] || entry.action}
                                                 </span>
                                                 <p className="text-sm text-gray-900 dark:text-white mt-1.5 leading-relaxed">
-                                                    {entry.details ||
-                                                        'No details provided'}
+                                                    {typeof entry.details === 'string'
+                                                        ? entry.details
+                                                        : entry.details?.message ||
+                                                          'No details provided'}
                                                 </p>
                                                 <div className="flex items-center gap-3 mt-1.5 flex-wrap">
                                                     <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">

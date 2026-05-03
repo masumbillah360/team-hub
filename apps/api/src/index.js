@@ -1,5 +1,6 @@
 import app from "./app.js";
 import config from "./shared/config/index.js";
+import { setupSocket } from "./shared/lib/socket.js";
 import dbConnection from "./shared/utils/dbConnection.js";
 import prisma from "@repo/database";
 
@@ -9,6 +10,7 @@ const server = app.listen(port, async () => {
     console.log('Server is running on port:', port)
     await dbConnection()
 })
+setupSocket(server)
 
 // Graceful shutdown
 const gracefulShutdown = async (signal) => {

@@ -25,7 +25,7 @@ router.post(
 router.post(
     '/:id/invite',
     protect(),
-    requireWorkspacePermission('workspace:invite'),
+    // requireWorkspacePermission('workspace:invite'),
     validate(validationSchema.inviteMemberSchema),
     workspaceController.inviteMember
 );

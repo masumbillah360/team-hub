@@ -3,16 +3,31 @@ import prisma from "@repo/database";
 import { DEFAULT_PERMISSION_MATRIX, validatePermissionMatrix } from "../shared/config/rbac.js";
 
 export const getWorkspaces = async ({ userId, page, limit, search }) => {
+    console.log("userid", userId);
+
+    // Define the where clause once and use it consistently
     const where = {
-        members: { some: { userId } },
-        ...(search && { name: { contains: search, mode: 'insensitive' } }),
+        members: {
+            some: {
+                userId: userId
+            }
+        },
+        ...(search && {
+            name: {
+                contains: search,
+                mode: 'insensitive'
+            }
+        }),
     };
 
     const [workspaces, total] = await Promise.all([
         prisma.workspace.findMany({
-            where,
+            where, // Use the same where clause
             include: {
-                members: { include: { user: true } },
+                members: {
+                    include: { user: true },
+                    orderBy: { createdAt: 'asc' }
+                },
                 permissionMatrix: true,
                 _count: {
                     select: {
@@ -26,7 +41,7 @@ export const getWorkspaces = async ({ userId, page, limit, search }) => {
             take: limit,
             orderBy: { updatedAt: 'desc' }
         }),
-        prisma.workspace.count({ where }),
+        prisma.workspace.count({ where }), // Use the same where clause
     ]);
 
     return {
@@ -143,16 +158,16 @@ export const inviteMember = async ({ workspaceId, email, role, invitedById }) =>
                 entityId: workspaceId,
             },
         }),
-        prisma.auditLog.create({
-            data: {
-                action: 'INVITE',
-                userId: invitedById,
-                details: { message: `Invited ${userToInvite.name} to workspace`, email, role },
-                workspaceId,
-                entityType: entityType.Enum.WorkspaceMember,
-                entityId: member.id,
-            },
-        })
+        // prisma.auditLog.create({
+        //     data: {
+        //         action: 'INVITE',
+        //         userId: invitedById,
+        //         details: { message: `Invited ${userToInvite.name} to workspace`, email, role },
+        //         workspaceId,
+        //         entityType: entityType.Enum.WorkspaceMember,
+        //         entityId: member.id,
+        //     },
+        // })
     ]);
 
     return member;
@@ -180,16 +195,16 @@ export const updateMemberRole = async ({ workspaceId, userId, role, updatedById 
         include: { user: true },
     });
 
-    await prisma.auditLog.create({
-        data: {
-            action: 'ROLE_CHANGE',
-            userId: updatedById,
-            details: { message: `Changed role for ${member.user.name} to ${role}`, newRole: role },
-            workspaceId,
-            entityType: entityType.Enum.WorkspaceMember,
-            entityId: member.id,
-        },
-    });
+    // await prisma.auditLog.create({
+    //     data: {
+    //         action: 'ROLE_CHANGE',
+    //         userId: updatedById,
+    //         details: { message: `Changed role for ${member.user.name} to ${role}`, newRole: role },
+    //         workspaceId,
+    //         entityType: entityType.Enum.WorkspaceMember,
+    //         entityId: member.id,
+    //     },
+    // });
 
     return member;
 };
@@ -217,16 +232,16 @@ export const removeMember = async ({ workspaceId, userId, removedById }) => {
         where: { workspaceId_userId: { workspaceId, userId } },
     });
 
-    await prisma.auditLog.create({
-        data: {
-            action: 'DELETE',
-            userId: removedById,
-            details: { message: `Removed ${memberToRemove.user.name} from workspace` },
-            workspaceId,
-            entityType: entityType.Enum.WorkspaceMember,
-            entityId: memberToRemove.id,
-        },
-    });
+    // await prisma.auditLog.create({
+    //     data: {
+    //         action: 'DELETE',
+    //         userId: removedById,
+    //         details: { message: `Removed ${memberToRemove.user.name} from workspace` },
+    //         workspaceId,
+    //         entityType: entityType.Enum.WorkspaceMember,
+    //         entityId: memberToRemove.id,
+    //     },
+    // });
 };
 
 export const updateWorkspace = async ({ workspaceId, name, description, accentColor, updatedById }) => {

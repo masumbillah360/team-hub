@@ -30,6 +30,13 @@ export const authAPI = {
         const response = await apiClient.get('/auth/profile');
         return response.data;
     },
+    updateProfile: (formData) =>
+        apiClient.put('/auth/profile', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }),
+
 
     logout: async () => {
         const response = await apiClient.post('/auth/logout');

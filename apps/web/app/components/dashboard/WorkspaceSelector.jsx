@@ -22,7 +22,7 @@ export default function WorkspaceSelector({ isOpen, onClose }) {
                 try {
                     setLoading(true);
                     const res = await workspacesAPI.list();
-                    setWorkspaces(res.data || []);
+                    setWorkspaces(res.data.data || []);
                 } catch (err) {
                     console.error('Failed to fetch workspaces:', err);
                 } finally {
@@ -75,7 +75,9 @@ export default function WorkspaceSelector({ isOpen, onClose }) {
                 className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md animate-scaleIn"
                 onClick={(e) => e.stopPropagation()}>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                    {showCreateForm ? 'Create Your First Workspace' : 'Select Workspace'}
+                    {showCreateForm
+                        ? 'Create Your First Workspace'
+                        : 'Select Workspace'}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
                     {showCreateForm
@@ -91,7 +93,7 @@ export default function WorkspaceSelector({ isOpen, onClose }) {
                             </div>
                         ) : (
                             <div className="space-y-2 mb-4 max-h-60 overflow-y-auto">
-                                {workspaces.map((ws) => (
+                                {workspaces?.map((ws) => (
                                     <button
                                         key={ws.id}
                                         onClick={() => handleSelect(ws.id)}
@@ -190,7 +192,8 @@ export default function WorkspaceSelector({ isOpen, onClose }) {
                             <p className="text-sm text-red-500">{error}</p>
                         )}
 
-                        <div className={`flex gap-3 pt-2 ${showCreateForm && workspaces.length === 0 ? 'justify-center' : ''}`}>
+                        <div
+                            className={`flex gap-3 pt-2 ${showCreateForm && workspaces.length === 0 ? 'justify-center' : ''}`}>
                             {!(showCreateForm && workspaces.length === 0) && (
                                 <button
                                     onClick={() => {
@@ -205,10 +208,7 @@ export default function WorkspaceSelector({ isOpen, onClose }) {
                             )}
                             <button
                                 onClick={handleCreate}
-                                disabled={
-                                    !newWsName.trim() ||
-                                    actionLoading
-                                }
+                                disabled={!newWsName.trim() || actionLoading}
                                 className={`${showCreateForm && workspaces.length === 0 ? 'w-full' : 'flex-1'} px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition disabled:opacity-50 flex items-center justify-center gap-2`}>
                                 {actionLoading ? (
                                     <Loader2 className="w-4 h-4 animate-spin" />

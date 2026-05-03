@@ -6,6 +6,7 @@ import { generateAccessToken, generateRefreshToken } from '../shared/lib/jwt.js'
 
 import { sendEmail } from '../shared/utils/mail.js'
 import { getWorkspaces } from './workspaces.service.js'
+import cloudinary from '../shared/lib/cloudinary.js'
 
 export const register = async ({ name, email, password }) => {
     const existingUser = await prisma.user.findUnique({ where: { email } })
@@ -91,12 +92,14 @@ export const updateProfile = async (userId, data, file) => {
     if (data.email) updateData.email = data.email
 
     if (file) {
-        const { uploadToCloudinary } = await import('../shared/lib/cloudinary.js')
-        const result = await uploadToCloudinary(file.buffer, {
-            folder: 'teamhub/avatars',
-            transformation: [{ width: 200, height: 200, crop: 'fill' }],
-        })
-        updateData.avatar = result.secure_url
+        const result = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                { folder: 'teamhub/avatars', transformation: [{ width: 200, height: 200, crop: 'fill' }] },
+                (error, result) => (error ? reject(error) : resolve(result))
+            );
+            stream.end(file.buffer);
+        });
+        updateData.avatar = result.secure_url;
     }
 
     return prisma.user.update({

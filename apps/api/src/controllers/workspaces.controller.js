@@ -4,8 +4,9 @@ import * as validationSchema from '../validators/workspace.validator.js';
 export const getWorkspaces = async (req, res) => {
     try {
         const { page, limit, search } = validationSchema.workspaceQuerySchema.parse(req.query);
+
         const result = await workspaceService.getWorkspaces({
-            userId: req.user.id,
+            userId: req.user.userId,
             page,
             limit,
             search,
@@ -21,7 +22,7 @@ export const getWorkspace = async (req, res) => {
         const { id } = req.params;
         const workspace = await workspaceService.getWorkspaceById({
             workspaceId: id,
-            userId: req.user.id,
+            userId: req.user.userId,
         });
         res.json({ data: workspace });
     } catch (error) {
@@ -35,7 +36,7 @@ export const createWorkspace = async (req, res) => {
         const validatedData = validationSchema.createWorkspaceSchema.parse(req.body);
         const workspace = await workspaceService.createWorkspace({
             ...validatedData,
-            userId: req.user.id,
+            userId: req.user.userId,
         });
         res.status(201).json(workspace);
     } catch (error) {
@@ -50,7 +51,7 @@ export const inviteMember = async (req, res) => {
         await workspaceService.inviteMember({
             workspaceId: id,
             ...validatedData,
-            invitedById: req.user.id,
+            invitedById: req.user.userId,
         });
         res.json({ message: 'Invitation sent successfully' });
     } catch (error) {
@@ -80,7 +81,7 @@ export const removeMember = async (req, res) => {
         await workspaceService.removeMember({
             workspaceId: id,
             userId,
-            removedById: req.user.id,
+            removedById: req.user.userId,
         });
         res.json({ message: 'Member removed successfully' });
     } catch (error) {
@@ -102,7 +103,7 @@ export const updateWorkspace = async (req, res) => {
         const workspace = await workspaceService.updateWorkspace({
             workspaceId: id,
             ...validatedData,
-            updatedById: req.user.id,
+            updatedById: req.user.userId,
         });
         res.json(workspace);
     } catch (error) {
@@ -115,7 +116,7 @@ export const deleteWorkspace = async (req, res) => {
         const { id } = req.params;
         await workspaceService.deleteWorkspace({
             workspaceId: id,
-            deletedById: req.user.id,
+            deletedById: req.user.userId,
         });
         res.json({ message: 'Workspace deleted successfully' });
     } catch (error) {
