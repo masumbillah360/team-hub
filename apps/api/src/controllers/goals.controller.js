@@ -25,7 +25,7 @@ export const createGoal = asyncHandler(async (req, res) => {
         userId: req.user.userId,
     });
 
-    res.status(201).json(goal);
+    res.status(201).json({ data: goal });
 });
 
 export const addMilestone = asyncHandler(async (req, res) => {
@@ -35,7 +35,8 @@ export const addMilestone = asyncHandler(async (req, res) => {
         userId: req.user.userId,
     });
 
-    res.status(201).json(milestone);
+    // ✅ Fixed: Wrap in { data }
+    res.status(201).json({ data: milestone });
 });
 
 export const updateMilestone = asyncHandler(async (req, res) => {
@@ -46,7 +47,8 @@ export const updateMilestone = asyncHandler(async (req, res) => {
         userId: req.user.userId,
     });
 
-    res.json(milestone);
+    // ✅ Fixed: Wrap in { data }
+    res.json({ data: milestone });
 });
 
 export const addGoalUpdate = asyncHandler(async (req, res) => {
@@ -56,7 +58,27 @@ export const addGoalUpdate = asyncHandler(async (req, res) => {
         userId: req.user.userId,
     });
 
-    res.status(201).json(update);
+    // ✅ Fixed: Wrap in { data }
+    res.status(201).json({ data: update });
+});
+
+export const getGoal = asyncHandler(async (req, res) => {
+    const goal = await goalService.getGoal(req.params.id);
+
+    if (!goal) {
+        return res.status(404).json({ message: 'Goal not found' });
+    }
+
+    res.json({ data: goal });
+});
+
+export const deleteGoal = asyncHandler(async (req, res) => {
+    await goalService.deleteGoal({
+        goalId: req.params.id,
+        userId: req.user.userId,
+    });
+
+    res.json({ message: 'Goal deleted successfully' });
 });
 
 export const updateGoal = asyncHandler(async (req, res) => {
@@ -66,5 +88,6 @@ export const updateGoal = asyncHandler(async (req, res) => {
         userId: req.user.userId,
     });
 
-    res.json(goal);
+    // ✅ Fixed: Wrap in { data }
+    res.json({ data: goal });
 });

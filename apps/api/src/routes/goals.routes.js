@@ -17,6 +17,9 @@ const router = express.Router();
 // GET /api/goals
 router.get('/', protect(), goalController.getGoals);
 
+// GET /api/goals/:id
+router.get('/:id', protect(), goalController.getGoal);
+
 // POST /api/goals
 router.post(
     '/',
@@ -56,5 +59,8 @@ router.put(
     validate(updateGoalSchema),
     goalController.updateGoal
 );
+
+// DELETE /api/goals/:id
+router.delete('/:id', protect(), goalController.deleteGoal);
 
 export default router;

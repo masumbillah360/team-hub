@@ -15,6 +15,11 @@ export const goalsAPI = {
         return response.data;
     },
 
+    getById: async (goalId) => {
+        const response = await apiClient.get(`/goals/${goalId}`);
+        return response.data;
+    },
+
     create: async (goalData) => {
         const response = await apiClient.post('/goals', goalData);
         return response.data;
@@ -22,6 +27,11 @@ export const goalsAPI = {
 
     update: async (goalId, updateData) => {
         const response = await apiClient.put(`/goals/${goalId}`, updateData);
+        return response.data;
+    },
+
+    delete: async (goalId) => {
+        const response = await apiClient.delete(`/goals/${goalId}`);
         return response.data;
     },
 
