@@ -159,7 +159,7 @@ function MultiSelectDropdown({ label, options = [], selected = [], onChange }) {
                                 return (
                                     <div
                                         key={userId}
-                                        className={`w-6 h-6 rounded-full bg-gradient-to-br ${getAvatarColor(user?.name)} flex items-center justify-center text-white text-xs font-semibold border-2 border-gray-50 dark:border-gray-700`}>
+                                        className={`w-6 h-6 rounded-full bg-linear-to-br ${getAvatarColor(user?.name)} flex items-center justify-center text-white text-xs font-semibold border-2 border-gray-50 dark:border-gray-700`}>
                                         {getInitials(user?.name)}
                                     </div>
                                 );
@@ -207,7 +207,7 @@ function MultiSelectDropdown({ label, options = [], selected = [], onChange }) {
                                                 : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                                         }`}>
                                         <div
-                                            className={`w-8 h-8 rounded-full bg-gradient-to-br ${getAvatarColor(user?.name)} flex items-center justify-center text-white text-xs font-semibold shrink-0`}>
+                                            className={`w-8 h-8 rounded-full bg-linear-to-br ${getAvatarColor(user?.name)} flex items-center justify-center text-white text-xs font-semibold shrink-0`}>
                                             {getInitials(user?.name)}
                                         </div>
                                         <span className="flex-1 text-left text-sm font-medium text-gray-900 dark:text-white">
@@ -674,7 +674,7 @@ export default function ActionItemsPage() {
                             <div
                                 key={user?.id}
                                 title={user?.name}
-                                className={`w-7 h-7 rounded-full bg-gradient-to-br ${getAvatarColor(user?.name)} flex items-center justify-center text-white text-xs font-semibold border-2 border-white dark:border-gray-800 shadow-sm`}>
+                                className={`w-7 h-7 rounded-full bg-linear-to-br ${getAvatarColor(user?.name)} flex items-center justify-center text-white text-xs font-semibold border-2 border-white dark:border-gray-800 shadow-sm`}>
                                 {getInitials(user?.name)}
                             </div>
                         ))}
@@ -836,7 +836,7 @@ export default function ActionItemsPage() {
                                                 </h3>
                                             </div>
                                             <span
-                                                className={`px-2.5 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${col?.color} text-white shadow-sm`}>
+                                                className={`px-2.5 py-1 rounded-full text-xs font-semibold bg-linear-to-r ${col?.color} text-white shadow-sm`}>
                                                 {colItems?.length || 0}
                                             </span>
                                         </div>
@@ -925,7 +925,7 @@ export default function ActionItemsPage() {
                                                         <div
                                                             key={user?.id}
                                                             title={user?.name}
-                                                            className={`w-7 h-7 rounded-full bg-gradient-to-br ${getAvatarColor(user?.name)} flex items-center justify-center text-white text-xs font-semibold border-2 border-white dark:border-gray-800`}>
+                                                            className={`w-7 h-7 rounded-full bg-linear-to-br ${getAvatarColor(user?.name)} flex items-center justify-center text-white text-xs font-semibold border-2 border-white dark:border-gray-800`}>
                                                             {getInitials(
                                                                 user?.name,
                                                             )}
@@ -1030,7 +1030,7 @@ export default function ActionItemsPage() {
                     <div
                         className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden"
                         onClick={(e) => e.stopPropagation()}>
-                        <div className="bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-5">
+                        <div className="bg-linear-to-r from-indigo-600 to-violet-600 px-6 py-5">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
@@ -1198,7 +1198,7 @@ export default function ActionItemsPage() {
                                 disabled={
                                     !newItem?.title?.trim() || creatingItem
                                 }
-                                className="px-5 py-2 text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:from-gray-300 disabled:to-gray-300 dark:disabled:from-gray-600 dark:disabled:to-gray-600 disabled:cursor-not-allowed text-white rounded-xl transition font-semibold flex items-center gap-2 shadow-sm">
+                                className="px-5 py-2 text-sm bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:from-gray-300 disabled:to-gray-300 dark:disabled:from-gray-600 dark:disabled:to-gray-600 disabled:cursor-not-allowed text-white rounded-xl transition font-semibold flex items-center gap-2 shadow-sm">
                                 <Plus className="w-4 h-4" />
                                 {creatingItem ? 'Creating...' : 'Create Item'}
                             </button>
@@ -1223,7 +1223,7 @@ export default function ActionItemsPage() {
                             <div
                                 className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden"
                                 onClick={(e) => e.stopPropagation()}>
-                                <div className="bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-5">
+                                <div className="bg-linear-to-r from-indigo-600 to-violet-600 px-6 py-5">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
@@ -1400,7 +1400,7 @@ export default function ActionItemsPage() {
                                 <div className="flex items-center justify-end gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-700/30 border-t border-gray-100 dark:border-gray-700">
                                     <button
                                         onClick={() => setEditingId(null)}
-                                        className="px-5 py-2 text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white rounded-xl transition font-semibold shadow-sm">
+                                        className="px-5 py-2 text-sm bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white rounded-xl transition font-semibold shadow-sm">
                                         {isUpdating ? 'Saving...' : 'Done'}
                                     </button>
                                 </div>

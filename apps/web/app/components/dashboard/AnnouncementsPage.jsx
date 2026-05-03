@@ -419,7 +419,7 @@ export default function AnnouncementsPage() {
 
     return (
         <div className="h-screen flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-950">
-            <div className="shrink-0 relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-500 to-indigo-600 px-8 py-8">
+            <div className="shrink-0 relative overflow-hidden bg-linear-to-br from-indigo-600 via-indigo-500 to-indigo-600 px-8 py-8">
                 <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -532,7 +532,7 @@ export default function AnnouncementsPage() {
                         </div>
                     ) : announcements.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-24 text-center">
-                            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-100 to-violet-100 dark:from-indigo-900/30 dark:to-violet-900/30 flex items-center justify-center mb-5">
+                            <div className="w-20 h-20 rounded-3xl bg-linear-to-br from-indigo-100 to-violet-100 dark:from-indigo-900/30 dark:to-violet-900/30 flex items-center justify-center mb-5">
                                 <Megaphone className="w-9 h-9 text-indigo-400" />
                             </div>
                             <p className="text-lg font-semibold text-gray-800 dark:text-white mb-1">
@@ -560,12 +560,12 @@ export default function AnnouncementsPage() {
                                 key={ann.id}
                                 className={`group bg-white dark:bg-gray-800/80 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 overflow-hidden hover:shadow-lg hover:shadow-gray-100 dark:hover:shadow-gray-900/50 hover:-translate-y-0.5 transition-all duration-200 ${ann._optimistic ? 'opacity-70' : ''}`}>
                                 {ann.pinned && (
-                                    <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500" />
+                                    <div className="h-1 w-full bg-linear-to-r from-indigo-500 via-violet-500 to-purple-500" />
                                 )}
                                 <div className="p-5">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-sm font-bold shrink-0 shadow-sm">
+                                            <div className="w-11 h-11 rounded-2xl bg-linear-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-sm font-bold shrink-0 shadow-sm">
                                                 {ann.author?.name?.charAt(0) ||
                                                     '?'}
                                             </div>
@@ -950,7 +950,7 @@ export default function AnnouncementsPage() {
                                     //     !newTitle.trim() ||
                                     //     !editor?.getHTML()?.trim()
                                     // }
-                                    className="px-5 py-2 text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:from-gray-300 disabled:to-gray-300 dark:disabled:from-gray-600 dark:disabled:to-gray-600 disabled:cursor-not-allowed text-white rounded-xl transition font-semibold flex items-center gap-2">
+                                    className="px-5 py-2 text-sm bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:from-gray-300 disabled:to-gray-300 dark:disabled:from-gray-600 dark:disabled:to-gray-600 disabled:cursor-not-allowed text-white rounded-xl transition font-semibold flex items-center gap-2">
                                     <Megaphone className="w-4 h-4" />
                                     {creatingAnnouncement
                                         ? 'Publishing...'

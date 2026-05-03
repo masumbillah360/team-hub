@@ -311,12 +311,12 @@ export default function AnnouncementDetail({ announcementId }) {
         <div className="p-6 max-w-4xl mx-auto">
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                 {announcement.pinned && (
-                    <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500" />
+                    <div className="h-1 w-full bg-linear-to-r from-indigo-500 via-violet-500 to-purple-500" />
                 )}
 
                 <div className="p-6">
                     <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-sm font-bold">
+                        <div className="w-10 h-10 rounded-full bg-linear-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-sm font-bold">
                             {announcement.author?.name?.charAt(0) || '?'}
                         </div>
                         <div>
@@ -416,7 +416,7 @@ export default function AnnouncementDetail({ announcementId }) {
                                     className={`flex gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl ${
                                         comment._optimistic ? 'opacity-70' : ''
                                     }`}>
-                                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                    <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
                                         {comment.user?.name?.charAt(0) || '?'}
                                     </div>
                                     <div className="flex-1">

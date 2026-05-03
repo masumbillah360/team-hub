@@ -1,38 +1,35 @@
-import apiClient from './client';
+import api from './client';
 
 export const workspacesAPI = {
-    list: async (params = {}) => {
-        const response = await apiClient.get('/workspaces', { params });
-        return response.data;
-    },
+    // Get all workspaces for current user
+    list: (params = {}) =>
+        api.get('/workspaces', { params }),
 
-    create: async (data) => {
-        const response = await apiClient.post('/workspaces', data);
-        return response.data;
-    },
+    // Get specific workspace
+    getWorkspace: (id) =>
+        api.get(`/workspaces/${id}`),
 
-    update: async (id, data) => {
-        const response = await apiClient.put(`/workspaces/${id}`, data);
-        return response.data;
-    },
+    // Create new workspace
+    create: (data) =>
+        api.post('/workspaces', data),
 
-    delete: async (id) => {
-        const response = await apiClient.delete(`/workspaces/${id}`);
-        return response.data;
-    },
+    // Update workspace settings
+    update: (id, data) =>
+        api.put(`/workspaces/${id}`, data),
 
-    inviteMember: async (workspaceId, data) => {
-        const response = await apiClient.post(`/workspaces/${workspaceId}/invite`, data);
-        return response.data;
-    },
+    // Delete workspace
+    delete: (id) =>
+        api.delete(`/workspaces/${id}`),
 
-    updateMemberRole: async (workspaceId, userId, data) => {
-        const response = await apiClient.put(`/workspaces/${workspaceId}/members/${userId}/role`, data);
-        return response.data;
-    },
+    // Invite member
+    inviteMember: (id, data) =>
+        api.post(`/workspaces/${id}/invite`, data),
 
-    removeMember: async (workspaceId, userId) => {
-        const response = await apiClient.delete(`/workspaces/${workspaceId}/members/${userId}`);
-        return response.data;
-    },
+    // Update member role
+    updateMemberRole: (workspaceId, userId, data) =>
+        api.put(`/workspaces/${workspaceId}/members/${userId}/role`, data),
+
+    // Remove member
+    removeMember: (workspaceId, userId) =>
+        api.delete(`/workspaces/${workspaceId}/members/${userId}`),
 };

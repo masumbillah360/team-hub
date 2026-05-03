@@ -422,7 +422,7 @@ export default function AuditLogPage() {
                                                 </p>
                                                 <div className="flex items-center gap-3 mt-1.5 flex-wrap">
                                                     <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
-                                                        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-[9px] font-bold shrink-0">
+                                                        <div className="w-5 h-5 rounded-full bg-linear-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-[9px] font-bold shrink-0">
                                                             {(
                                                                 entry.user
                                                                     ?.name ||

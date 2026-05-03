@@ -62,7 +62,7 @@ function StatCard({ label, value, icon: Icon, color, delay = 0, suffix = '' }) {
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 hover:shadow-lg transition animate-slideUp"
             style={{ animationDelay: `${delay}ms` }}>
             <div
-                className={`w-12 h-12 bg-gradient-to-br ${color} rounded-xl flex items-center justify-center mb-3`}>
+                className={`w-12 h-12 bg-linear-to-br ${color} rounded-xl flex items-center justify-center mb-3`}>
                 <Icon className="w-6 h-6 text-white" />
             </div>
             <p className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -461,7 +461,7 @@ export default function AnalyticsPage() {
 
             {/* Summary Banner */}
             {summary.total > 0 && (
-                <div className="bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-indigo-900/20 dark:to-violet-900/20 border border-indigo-100 dark:border-indigo-800 rounded-xl p-4">
+                <div className="bg-linear-to-r from-indigo-50 to-violet-50 dark:from-indigo-900/20 dark:to-violet-900/20 border border-indigo-100 dark:border-indigo-800 rounded-xl p-4">
                     <div className="flex flex-wrap items-center gap-6">
                         <div>
                             <p className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold uppercase tracking-wider">
@@ -473,7 +473,7 @@ export default function AnalyticsPage() {
                         </div>
                         <div className="flex-1 h-3 bg-indigo-100 dark:bg-indigo-800 rounded-full overflow-hidden min-w-[100px]">
                             <div
-                                className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-700"
+                                className="h-full bg-linear-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-700"
                                 style={{ width: `${summary.averageProgress}%` }}
                             />
                         </div>

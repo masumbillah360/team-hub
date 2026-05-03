@@ -73,7 +73,7 @@ export default function Sidebar() {
         try {
             setLoading(true);
             const res = await workspacesAPI.list();
-            setWorkspaces(res.data || []);
+            setWorkspaces(res?.data?.data || []);
         } catch (err) {
             console.error('Failed to fetch workspaces:', err);
             setError('Failed to load workspaces');

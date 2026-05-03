@@ -25,6 +25,9 @@ export const updateWorkspaceSchema = z.object({
         .string()
         .regex(/^#[0-9A-Fa-f]{6}$/)
         .optional(),
+    permissionMatrix: z.object({
+        matrix: z.string(), // JSON string
+    }).optional(),
 });
 
 export const workspaceQuerySchema = z.object({

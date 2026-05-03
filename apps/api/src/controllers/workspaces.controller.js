@@ -1,72 +1,124 @@
-import { asyncHandler } from '../shared/utils/asyncHandler.js';
 import * as workspaceService from '../services/workspaces.service.js';
+import * as validationSchema from '../validators/workspace.validator.js';
 
-export const getWorkspaces = asyncHandler(async (req, res) => {
-    const result = await workspaceService.getWorkspaces({
-        userId: req.user.userId,
-        page: parseInt(req.query.page) || 1,
-        limit: parseInt(req.query.limit) || 10,
-        search: req.query.search || '',
-    });
+export const getWorkspaces = async (req, res) => {
+    try {
+        const { page, limit, search } = validationSchema.workspaceQuerySchema.parse(req.query);
+        const result = await workspaceService.getWorkspaces({
+            userId: req.user.id,
+            page,
+            limit,
+            search,
+        });
+        res.json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
-    res.json(result);
-});
+export const getWorkspace = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const workspace = await workspaceService.getWorkspaceById({
+            workspaceId: id,
+            userId: req.user.id,
+        });
+        res.json({ data: workspace });
+    } catch (error) {
+        res.status(error.message.includes('not found') ? 404 : 400)
+            .json({ message: error.message });
+    }
+};
 
-export const createWorkspace = asyncHandler(async (req, res) => {
-    const workspace = await workspaceService.createWorkspace({
-        ...req.body,
-        userId: req.user.userId,
-    });
+export const createWorkspace = async (req, res) => {
+    try {
+        const validatedData = validationSchema.createWorkspaceSchema.parse(req.body);
+        const workspace = await workspaceService.createWorkspace({
+            ...validatedData,
+            userId: req.user.id,
+        });
+        res.status(201).json(workspace);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
-    res.status(201).json(workspace);
-});
+export const inviteMember = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const validatedData = validationSchema.inviteMemberSchema.parse(req.body);
+        await workspaceService.inviteMember({
+            workspaceId: id,
+            ...validatedData,
+            invitedById: req.user.id,
+        });
+        res.json({ message: 'Invitation sent successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
-export const inviteMember = asyncHandler(async (req, res) => {
-    await workspaceService.inviteMember({
-        workspaceId: req.params.id,
-        ...req.body,
-        invitedById: req.user.userId,
-    });
+export const updateMemberRole = async (req, res) => {
+    try {
+        const { id, userId } = req.params;
+        const validatedData = validationSchema.updateMemberRoleSchema.parse(req.body);
+        const member = await workspaceService.updateMemberRole({
+            workspaceId: id,
+            userId,
+            role: validatedData.role,
+            updatedById: req.user.id,
+        });
+        res.json(member);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
-    res.json({ message: 'Member invited successfully' });
-});
+export const removeMember = async (req, res) => {
+    try {
+        const { id, userId } = req.params;
+        await workspaceService.removeMember({
+            workspaceId: id,
+            userId,
+            removedById: req.user.id,
+        });
+        res.json({ message: 'Member removed successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
-export const updateMemberRole = asyncHandler(async (req, res) => {
-    const member = await workspaceService.updateMemberRole({
-        workspaceId: req.params.id,
-        userId: req.params.userId,
-        ...req.body,
-        updatedById: req.user.userId,
-    });
+export const updateWorkspace = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const validatedData = validationSchema.updateWorkspaceSchema.parse(req.body);
 
-    res.json(member);
-});
+        // Handle permission matrix update separately if provided
+        if (validatedData.permissionMatrix) {
+            await workspaceService.updatePermissionMatrix(id, validatedData.permissionMatrix.matrix);
+            delete validatedData.permissionMatrix;
+        }
 
-export const removeMember = asyncHandler(async (req, res) => {
-    await workspaceService.removeMember({
-        workspaceId: req.params.id,
-        userId: req.params.userId,
-        removedById: req.user.userId,
-    });
+        const workspace = await workspaceService.updateWorkspace({
+            workspaceId: id,
+            ...validatedData,
+            updatedById: req.user.id,
+        });
+        res.json(workspace);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
-    res.json({ message: 'Member removed successfully' });
-});
-
-export const updateWorkspace = asyncHandler(async (req, res) => {
-    const updated = await workspaceService.updateWorkspace({
-        workspaceId: req.params.id,
-        ...req.body,
-        updatedById: req.user.userId,
-    });
-
-    res.json(updated);
-});
-
-export const deleteWorkspace = asyncHandler(async (req, res) => {
-    await workspaceService.deleteWorkspace({
-        workspaceId: req.params.id,
-        deletedById: req.user.userId,
-    });
-
-    res.json({ message: 'Workspace deleted successfully' });
-});
+export const deleteWorkspace = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await workspaceService.deleteWorkspace({
+            workspaceId: id,
+            deletedById: req.user.id,
+        });
+        res.json({ message: 'Workspace deleted successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

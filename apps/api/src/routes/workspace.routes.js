@@ -10,6 +10,9 @@ const router = express.Router();
 // GET /api/workspaces
 router.get('/', protect(), workspaceController.getWorkspaces);
 
+// GET /api/workspace
+router.get('/:id', protect(), workspaceController.getWorkspace);
+
 // POST /api/workspaces
 router.post(
     '/',
