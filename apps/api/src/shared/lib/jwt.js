@@ -3,8 +3,8 @@ import config from '../config/index.js';
 
 const { JWT_SECRET, JWT_REFRESH_SECRET } = config;
 
-export function generateAccessToken(payload) {
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
+export function generateAccessToken(payload, expiresIn = '15m') {
+    return jwt.sign(payload, JWT_SECRET, { expiresIn });
 }
 
 export function generateRefreshToken(payload) {
@@ -12,7 +12,12 @@ export function generateRefreshToken(payload) {
 }
 
 export function verifyAccessToken(token) {
-    return jwt.verify(token, JWT_SECRET);
+    try {
+        return jwt.verify(token, JWT_SECRET);
+    } catch (error) {
+        console.error('JWT verification failed:', error.message, 'Token:', token?.substring(0, 20) + '...');
+        throw error;
+    }
 }
 
 export function verifyRefreshToken(token) {

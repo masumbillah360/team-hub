@@ -119,11 +119,29 @@ export const forgotPassword = async (email) => {
 export const verifyForgotPasswordOTP = async (email, otp) => {
     const isValid = verifyOTP(email, otp)
     if (!isValid) throw new Error('Invalid or expired OTP')
-    return { verified: true }
+
+    // Generate a temporary reset token (valid for 10 minutes)
+    const { generateAccessToken } = await import('../shared/lib/jwt.js')
+    const resetToken = generateAccessToken({ email, purpose: 'password-reset' }, '10m')
+
+    return { verified: true, resetToken }
 }
 
-export const resetPassword = async (email, password) => {
-    const user = await prisma.user.findUnique({ where: { email } })
+export const resetPassword = async ({ token, password }) => {
+    const { verifyAccessToken } = await import('../shared/lib/jwt.js')
+    
+    let decoded;
+    try {
+        decoded = verifyAccessToken(token)
+    } catch (error) {
+        throw new Error('Invalid or expired reset token')
+    }
+
+    if (decoded.purpose !== 'password-reset') {
+        throw new Error('Invalid reset token')
+    }
+
+    const user = await prisma.user.findUnique({ where: { email: decoded.email } })
     if (!user) throw new Error('User not found')
 
     const hashedPassword = await bcrypt.hash(password, 10)
