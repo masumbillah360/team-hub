@@ -2,6 +2,7 @@ import { Router } from 'express'
 import authRoutes from './auth.routes.js'
 import workspaceRoutes from './workspace.routes.js'
 import goalsRoutes from './goals.routes.js'
+import announcementsRoutes from './announcements.routes.js'
 
 const router = Router()
 
@@ -22,5 +23,6 @@ router.get('/health', (req, res) => {
 router.use('/auth', authRoutes)
 router.use('/workspaces', workspaceRoutes)
 router.use('/goals', goalsRoutes)
+router.use('/announcements', announcementsRoutes)
 
 export default router
