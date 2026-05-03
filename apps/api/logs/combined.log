@@ -304,3 +304,6 @@
 {"level":"info","message":"POST /api/v1/auth/logout","timestamp":"2026-05-03 15:13:53"}
 {"level":"info","message":"POST /api/v1/auth/login","timestamp":"2026-05-03 15:14:00"}
 {"level":"info","message":"GET /api/v1/auth/profile","timestamp":"2026-05-03 15:16:09"}
+{"level":"info","message":"GET /api/v1/auth/profile","timestamp":"2026-05-03 15:19:24"}
+{"level":"info","message":"GET /api/v1/auth/profile","timestamp":"2026-05-03 15:19:29"}
+{"level":"info","message":"GET /api/v1/auth/profile","timestamp":"2026-05-03 15:19:35"}

@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import authRoutes from './auth.routes.js'
+import workspaceRoutes from './workspace.routes.js'
 
 const router = Router()
 
@@ -18,5 +19,6 @@ router.get('/health', (req, res) => {
 })
 
 router.use('/auth', authRoutes)
+router.use('/workspace', workspaceRoutes)
 
 export default router

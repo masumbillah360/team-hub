@@ -1,11 +1,11 @@
 import multer from 'multer'
 import { Router } from 'express'
 
-import validate from '../../shared/middleware/validate.js'
-import { protect } from '../../shared/middleware/protect.js'
-import *  as authController from '../../controllers/auth.controller.js'
+import validate from '../shared/middleware/validate.js'
+import { protect } from '../shared/middleware/protect.js'
+import *  as authController from '../controllers/auth.controller.js'
 
-import * as validationSchema from '../../validators/auth.validator.js'
+import * as validationSchema from '../validators/auth.validator.js'
 
 const router = Router()
 const upload = multer({ storage: multer.memoryStorage() })

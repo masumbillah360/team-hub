@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { authAPI } from '../api/auth';
 
-const useAuthStore = create((set, get) => ({
+const useAuthStore = create((set) => ({
     user: null,
     isAuthenticated: false,
     loading: false,
@@ -17,6 +17,7 @@ const useAuthStore = create((set, get) => ({
             set({ user: data, isAuthenticated: true });
             return true;
         } catch (error) {
+            console.error('Check auth error -> ', error.message)
             set({ user: null, isAuthenticated: false });
             return false;
         }

@@ -5,6 +5,7 @@ import { generateOTP, storeOTP, verifyOTP } from '../shared/utils/otp.js'
 import { generateAccessToken, generateRefreshToken } from '../shared/lib/jwt.js'
 
 import { sendEmail } from '../shared/utils/mail.js'
+import { getWorkspaces } from './workspaces.service.js'
 
 export const register = async ({ name, email, password }) => {
     const existingUser = await prisma.user.findUnique({ where: { email } })
@@ -34,6 +35,7 @@ export const login = async ({ email, password }) => {
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) throw new Error('Invalid credentials')
 
+    const workspaces = getWorkspaces({ userId: user.id })
     const accessToken = generateAccessToken({ userId: user.id, role: user.role })
     const refreshToken = generateRefreshToken({ userId: user.id })
 
@@ -44,6 +46,7 @@ export const login = async ({ email, password }) => {
 
     return {
         user: { id: user.id, name: user.name, email: user.email, role: user.role, avatar: user.avatar },
+        workspaces, 
         accessToken,
         refreshToken,
     }
