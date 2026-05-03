@@ -5,6 +5,7 @@ import goalsRoutes from './goals.routes.js'
 import announcementsRoutes from './announcements.routes.js'
 import actionItemRoutes from './action-items.routes.js'
 import analyticsRoutes from './analytics.routes.js'
+import auditLogsRoutes from './audit-logs.routes.js'
 
 const router = Router()
 
@@ -28,5 +29,6 @@ router.use('/goals', goalsRoutes)
 router.use('/announcements', announcementsRoutes)
 router.use('/action-items', actionItemRoutes)
 router.use('/analytics', analyticsRoutes)
+router.use('/audit-logs', auditLogsRoutes)
 
 export default router
