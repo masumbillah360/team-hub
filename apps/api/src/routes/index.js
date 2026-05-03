@@ -3,6 +3,7 @@ import authRoutes from './auth.routes.js'
 import workspaceRoutes from './workspace.routes.js'
 import goalsRoutes from './goals.routes.js'
 import announcementsRoutes from './announcements.routes.js'
+import actionItemRoutes from './action-items.routes.js'
 
 const router = Router()
 
@@ -24,5 +25,6 @@ router.use('/auth', authRoutes)
 router.use('/workspaces', workspaceRoutes)
 router.use('/goals', goalsRoutes)
 router.use('/announcements', announcementsRoutes)
+router.use('/action-items', actionItemRoutes)
 
 export default router
