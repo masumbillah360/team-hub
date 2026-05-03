@@ -1,4 +1,4 @@
-import LandingNav from '@/app/components/landing/Navbar';
+import LandingNav from "../components/landing/Navbar";
 
 export default function PublicLayout({ children }) {
     return (
