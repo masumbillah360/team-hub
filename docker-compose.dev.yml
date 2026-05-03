@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: team-hub
+      POSTGRES_PASSWORD: team-hub
+      POSTGRES_DB: team-hub
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025" # Web UI
+      - "1025:1025" # SMTP
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
