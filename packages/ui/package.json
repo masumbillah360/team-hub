@@ -16,8 +16,8 @@
     "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "build:components": "tsc",
     "check-types": "tsc --noEmit",
-    "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
-    "dev:components": "tsc --watch",
+    "dev:styles": "node api.js && tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
+    "dev:components": "node api.js && tsc --watch",
     "lint": "eslint src --max-warnings 0"
   },
   "peerDependencies": {
